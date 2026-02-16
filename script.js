@@ -202,7 +202,7 @@ function placeOrder() {
             
             // Re-enable order button
             orderBtn.disabled = false;
-            orderBtn.innerHTML = '<span class="btn-text">Order Now</span><span class="btn-icon">☕</span>';
+            orderBtn.innerHTML = '<span class="btn-text">Order Now</span>';
         }, 3000);
     }, 2000);
 }
