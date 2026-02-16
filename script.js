@@ -168,7 +168,7 @@ function placeOrder() {
     }
     
     // Build order summary
-    let summary = `${currentItem.name} - $${currentItem.price.toFixed(2)}`;
+    let summary = `${currentItem.name}`;
     if (customizations.length > 0) {
         summary += `<br><small>+ ${customizations.join(', ')}</small>`;
     }
