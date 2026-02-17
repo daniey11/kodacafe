@@ -42,29 +42,63 @@ const menuItems = [
     },
     {
         id: 2,
+        name: "Flat White",
+        description: "Velvety microfoam poured over a double ristretto espresso",
+        price: 5.50,
+        category: "coffee",
+        hasCustomization: true,
+        customizationType: "flatwhite",
+        image: "images/flat-white.png"
+    },
+    {
+        id: 3,
+        name: "Latte",
+        description: "Smooth espresso with steamed milk and velvety cold foam",
+        price: 6.00,
+        category: "coffee",
+        hasCustomization: true,
+        customizationType: "latte",
+        image: "images/iced-drink.png"
+    },
+    {
+        id: 4,
+        name: "Matcha Latte",
+        description: "Premium matcha with steamed milk and silky cold foam on top",
+        price: 6.50,
+        category: "matcha",
+        hasCustomization: true,
+        customizationType: "latte",
+        image: "images/matcha-bowl.png"
+    },
+    {
+        id: 5,
         name: "Espresso Tonic",
         description: "Refreshing espresso with tonic water and ice",
         price: 5.50,
         category: "coffee",
+        hasCustomization: true,
+        customizationType: "espressotonic",
         image: "images/espresso-tonic.png"
     },
     {
-        id: 3,
-        name: "Iced Latte with Cold Foam",
-        description: "Smooth iced latte topped with velvety cold foam",
-        price: 6.00,
+        id: 6,
+        name: "Affogato",
+        description: "Velvety vanilla ice cream drowned in a rich, bold shot of espresso",
+        price: 7.00,
         category: "coffee",
         hasCustomization: true,
-        image: "images/iced-drink.png"  // Your hand-drawn iced drink!
+        customizationType: "affogato",
+        image: "images/affogato.png"
     },
     {
-        id: 4,
-        name: "Iced Matcha with Cold Foam",
-        description: "Premium matcha with silky cold foam on top",
-        price: 6.50,
-        category: "matcha",
+        id: 7,
+        name: "Espresso Martini",
+        description: "A silky, bold cocktail shaken with espresso, vodka, and coffee liqueur",
+        price: 13.00,
+        category: "cocktail",
         hasCustomization: true,
-        image: "images/matcha-bowl.png"  // Your hand-drawn matcha bowl!
+        customizationType: "martini",
+        image: "images/espresso-martini.png"
     }
 ];
 
@@ -112,21 +146,130 @@ function openOrderModal(item) {
     modalItemImage.src = item.image;
     modalItemImage.alt = item.name;
     
-    // Show/hide customization options based on item
+    // Show/hide customization options based on item type
     if (item.hasCustomization) {
         customizationSection.style.display = 'block';
-        foamOptions.style.display = 'block';
-        syrupOptions.style.display = 'block';
+
+        if (item.customizationType === 'flatwhite') {
+            // Flat White: syrup + milk only (always served hot)
+            foamOptions.style.display = 'block';
+            foamOptions.querySelector('label').textContent = 'Add a Syrup:';
+            foamSelect.innerHTML = `
+                <option value="">No Syrup</option>
+                <option value="Banana Syrup">Banana Syrup</option>
+                <option value="Vanilla Syrup">Vanilla Syrup</option>
+                <option value="Brown Sugar Syrup">Brown Sugar Syrup</option>
+                <option value="Specialty Fruit Syrup">Specialty Fruit Syrup</option>
+            `;
+            syrupOptions.style.display = 'block';
+            syrupOptions.querySelector('label').textContent = 'Milk Option:';
+            syrupSelect.innerHTML = `
+                <option value="">Regular Milk</option>
+                <option value="Almond Milk">Almond Milk</option>
+                <option value="Oat Milk">Oat Milk</option>
+            `;
+
+        } else if (item.customizationType === 'espressotonic') {
+            // Espresso Tonic: syrup only
+            foamOptions.style.display = 'block';
+            foamOptions.querySelector('label').textContent = 'Add a Syrup:';
+            foamSelect.innerHTML = `
+                <option value="">No Syrup</option>
+                <option value="Banana Syrup">Banana Syrup</option>
+                <option value="Vanilla Syrup">Vanilla Syrup</option>
+                <option value="Brown Sugar Syrup">Brown Sugar Syrup</option>
+                <option value="Specialty Fruit Syrup">Specialty Fruit Syrup</option>
+            `;
+            syrupOptions.style.display = 'none';
+
+        } else if (item.customizationType === 'latte') {
+            // Latte / Matcha Latte: temperature, milk, cold foam, syrup
+            foamOptions.style.display = 'block';
+            foamOptions.querySelector('label').textContent = 'Temperature:';
+            foamSelect.innerHTML = `
+                <option value="">Select temperature</option>
+                <option value="Iced">Iced</option>
+                <option value="Hot">Hot</option>
+            `;
+            syrupOptions.style.display = 'block';
+            syrupOptions.querySelector('label').textContent = 'Milk Option:';
+            syrupSelect.innerHTML = `
+                <option value="">Regular Milk</option>
+                <option value="Almond Milk">Almond Milk</option>
+                <option value="Oat Milk">Oat Milk</option>
+            `;
+            // Inject cold foam + syrup rows below
+            const existing = document.getElementById('latteExtras');
+            if (existing) existing.remove();
+            const extras = document.createElement('div');
+            extras.id = 'latteExtras';
+            extras.innerHTML = `
+                <div class="option-group" style="margin-top:20px;">
+                    <label class="option-label">Choose Your Cold Foam:</label>
+                    <select class="option-select" id="coldFoamSelect">
+                        <option value="">No Cold Foam</option>
+                        <option value="Vanilla Syrup Cold Foam">Vanilla Syrup Cold Foam</option>
+                        <option value="Brown Sugar Cold Foam">Brown Sugar Cold Foam</option>
+                        <option value="Ube Cold Foam">Ube Cold Foam</option>
+                        <option value="Pandan Cold Foam">Pandan Cold Foam</option>
+                        <option value="Matcha Cold Foam">Matcha Cold Foam</option>
+                        <option value="Specialty Fruit Cold Foam">Specialty Fruit Cold Foam</option>
+                    </select>
+                </div>
+                <div class="option-group" style="margin-top:20px;">
+                    <label class="option-label">Add a Syrup:</label>
+                    <select class="option-select" id="latteSyrupSelect">
+                        <option value="">No Syrup</option>
+                        <option value="Banana Syrup">Banana Syrup</option>
+                        <option value="Vanilla Syrup">Vanilla Syrup</option>
+                        <option value="Brown Sugar Syrup">Brown Sugar Syrup</option>
+                        <option value="Specialty Fruit Syrup">Specialty Fruit Syrup</option>
+                    </select>
+                </div>
+            `;
+            customizationSection.appendChild(extras);
+
+        } else if (item.customizationType === 'affogato') {
+            // Affogato: base choice only
+            foamOptions.style.display = 'block';
+            foamOptions.querySelector('label').textContent = 'Choose Your Base:';
+            foamSelect.innerHTML = `
+                <option value="">Select an option</option>
+                <option value="Matcha">Matcha</option>
+                <option value="Espresso">Espresso</option>
+            `;
+            syrupOptions.style.display = 'none';
+
+        } else if (item.customizationType === 'martini') {
+            // Espresso Martini: espresso type only
+            foamOptions.style.display = 'block';
+            foamOptions.querySelector('label').textContent = 'Choose Your Espresso:';
+            foamSelect.innerHTML = `
+                <option value="">Select an option</option>
+                <option value="Decaf">Decaf</option>
+                <option value="Espresso">Espresso</option>
+            `;
+            syrupOptions.style.display = 'none';
+
+        } else {
+            // Default fallback
+            foamOptions.style.display = 'none';
+            syrupOptions.style.display = 'none';
+        }
     } else {
         customizationSection.style.display = 'none';
         foamOptions.style.display = 'none';
         syrupOptions.style.display = 'none';
     }
     
-    // Reset selections
+    // Reset all selections (including any latte extras)
     foamSelect.value = '';
     syrupSelect.value = '';
-    
+    const coldFoamEl = document.getElementById('coldFoamSelect');
+    const latteSyrupEl = document.getElementById('latteSyrupSelect');
+    if (coldFoamEl) coldFoamEl.value = '';
+    if (latteSyrupEl) latteSyrupEl.value = '';
+
     // Show modal
     modal.classList.add('active');
     document.body.style.overflow = 'hidden';
@@ -136,6 +279,9 @@ function closeOrderModal() {
     modal.classList.remove('active');
     document.body.style.overflow = 'auto';
     currentItem = null;
+    // Remove any dynamically added latte extras
+    const extras = document.getElementById('latteExtras');
+    if (extras) extras.remove();
 }
 
 // ============================================
@@ -158,6 +304,16 @@ function placeOrder() {
     
     if (syrupSelect.value) {
         customizations.push(syrupSelect.value);
+    }
+
+    // Also capture latte-specific cold foam and syrup if present
+    const coldFoamSelect = document.getElementById('coldFoamSelect');
+    const latteSyrupSelect = document.getElementById('latteSyrupSelect');
+    if (coldFoamSelect && coldFoamSelect.value) {
+        customizations.push(coldFoamSelect.value);
+    }
+    if (latteSyrupSelect && latteSyrupSelect.value) {
+        customizations.push(latteSyrupSelect.value);
     }
     
     // Build order summary (no price)
@@ -187,6 +343,7 @@ function placeOrder() {
         
         // Update and show success message
         orderSummary.innerHTML = summary;
+        orderSummary.style.display = customizations.length > 0 ? 'block' : 'none';
         showSuccessMessage();
         
         // Hide success message after 3 seconds
