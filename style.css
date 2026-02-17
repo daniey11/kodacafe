@@ -71,7 +71,7 @@ body::after {
 
 .header {
     text-align: center;
-    padding: 100px 20px 20px;
+    padding: 100px 20px 60px;
     position: relative;
 }
 
@@ -97,16 +97,17 @@ body::after {
     font-size: clamp(3rem, 8vw, 6rem);
     font-weight: 700;
     color: var(--red-primary);
-    letter-spacing: 2px;
+    transform: rotate(-1.5deg);
+    text-transform: uppercase;
+    letter-spacing: 4px;
     text-shadow: 3px 3px 0 rgba(199, 64, 51, 0.2);
     margin-bottom: 20px;
-    animation: curveWiggle 3s ease-in-out infinite;
-    display: inline-block;
+    animation: wiggle 3s ease-in-out infinite;
 }
 
-@keyframes curveWiggle {
-    0%, 100% { transform: rotate(-1.5deg) scaleY(0.95) scaleX(1.02); }
-    50% { transform: rotate(1.5deg) scaleY(0.95) scaleX(1.02); }
+@keyframes wiggle {
+    0%, 100% { transform: rotate(-1.5deg); }
+    50% { transform: rotate(1.5deg); }
 }
 
 .mascot-container {
@@ -116,7 +117,7 @@ body::after {
 }
 
 .mascot-image {
-    max-width: 120px;
+    max-width: 180px;
     height: auto;
     animation: bounce 2s ease-in-out infinite;
     filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
@@ -134,26 +135,26 @@ body::after {
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 20px 20px 60px;
+    padding: 30px 16px 80px;
 }
 
 .menu-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 12px;
-    padding: 8px;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    padding: 12px;
 }
 
 .menu-item {
     background: var(--white);
-    border: 3px solid var(--red-primary);
-    border-radius: 15px;
-    padding: 10px;
+    border: 4px solid var(--red-primary);
+    border-radius: 20px;
+    padding: 14px 12px;
     cursor: pointer;
     transition: all 0.3s ease;
     position: relative;
     transform: rotate(0deg);
-    box-shadow: 0 6px 12px var(--shadow-dark);
+    box-shadow: 0 8px 16px var(--shadow-dark);
     overflow: hidden;
 }
 
@@ -184,7 +185,7 @@ body::after {
     top: 15px;
     left: 15px;
     font-family: 'Caveat', cursive;
-    font-size: 2rem;
+    font-size: 1.4rem;
     font-weight: 700;
     color: var(--red-primary);
     opacity: 0.5;
@@ -194,14 +195,14 @@ body::after {
 /* Custom item image - your hand-drawn illustrations! */
 .item-image-container {
     width: 100%;
-    height: 120px;
-    margin-bottom: 6px;
+    height: 150px;
+    margin-bottom: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
     background: var(--cream);
     border-radius: 12px;
-    padding: 6px;
+    padding: 10px;
 }
 
 .item-image {
@@ -217,29 +218,25 @@ body::after {
 
 .item-name {
     font-family: 'Indie Flower', cursive;
-    font-size: 1.1rem;
+    font-size: 1.35rem;
     color: var(--red-primary);
-    margin-bottom: 4px;
+    margin-bottom: 8px;
     text-align: center;
     line-height: 1.2;
 }
 
 .item-description {
-    font-size: 0.75rem;
+    font-size: 0.9rem;
     color: var(--text-dark);
-    margin-bottom: 0;
+    margin-bottom: 12px;
     text-align: center;
-    line-height: 1.2;
-    opacity: 0.8;
+    line-height: 1.4;
+    opacity: 0.85;
 }
 
-.item-price {
-    font-family: 'Caveat', cursive;
-    font-size: 2rem;
-    font-weight: 700;
-    color: var(--red-primary);
-    text-align: center;
-    display: none;
+/* Slightly reduce base font for compact layout */
+body {
+    font-size: 15px;
 }
 
 /* ============================================
@@ -337,14 +334,6 @@ body::after {
     font-size: 2rem;
     color: var(--red-primary);
     margin-bottom: 10px;
-}
-
-.modal-price {
-    font-family: 'Caveat', cursive;
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: var(--red-primary);
-    display: none;
 }
 
 .modal-body {
@@ -445,16 +434,6 @@ body::after {
 
 .order-btn:active {
     transform: translateY(0);
-}
-
-.btn-icon {
-    font-size: 1.8rem;
-    animation: spin 2s linear infinite;
-}
-
-@keyframes spin {
-    0%, 100% { transform: rotate(0deg); }
-    50% { transform: rotate(20deg); }
 }
 
 /* ============================================
@@ -562,37 +541,23 @@ body::after {
     background: var(--white);
     border: 8px solid var(--red-primary);
     border-radius: 30px;
-    padding: 50px 60px;
+    padding: 40px 50px;
     text-align: center;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
 }
 
-.success-icon {
-    font-size: 5rem;
-    margin-bottom: 20px;
-    animation: checkBounce 0.6s ease 0.2s;
+.order-confirmed-image {
+    width: 220px;
+    height: auto;
+    display: block;
+    margin: 0 auto 10px;
+    animation: checkBounce 0.6s ease 0.2s both;
 }
 
 @keyframes checkBounce {
-    0%, 100% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.2);
-    }
-}
-
-.success-content h3 {
-    font-family: 'Indie Flower', cursive;
-    font-size: 2rem;
-    color: var(--red-primary);
-    margin-bottom: 10px;
-}
-
-.success-content p {
-    font-size: 1.2rem;
-    color: var(--text-dark);
-    margin-bottom: 10px;
+    0% { transform: scale(0.7); opacity: 0; }
+    60% { transform: scale(1.08); }
+    100% { transform: scale(1); opacity: 1; }
 }
 
 .order-summary {

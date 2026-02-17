@@ -13,7 +13,6 @@ const orderSummary = document.getElementById('orderSummary');
 
 // Modal content elements
 const modalItemName = document.getElementById('modalItemName');
-const modalItemPrice = document.getElementById('modalItemPrice');
 const modalItemDescription = document.getElementById('modalItemDescription');
 const modalImageContainer = document.getElementById('modalImageContainer');
 const modalItemImage = document.getElementById('modalItemImage');
@@ -26,18 +25,20 @@ const syrupSelect = document.getElementById('syrupSelect');
 // Current selected item
 let currentItem = null;
 
-// ============================================
-// MENU DATA WITH YOUR CUSTOM ILLUSTRATIONS!
-// ============================================
+// NOTE: Cold foam and syrup options are defined in index.html dropdowns.
+// Items with hasCustomization: true will show those dropdowns.
+// Current foam options: Vanilla Syrup Cold Foam, Brown Sugar Cold Foam,
+//   Ube Cold Foam, Pandan Cold Foam, Matcha Cold Foam, Specialty Fruit Cold Foam
+// Current syrup options: Banana Syrup, Vanilla Syrup, Brown Sugar Syrup, Specialty Fruit Syrup
 
 const menuItems = [
     {
         id: 1,
-        name: "Drip Coffee",
+        name: "Pour over Coffee",
         description: "Classic slow-drip coffee, smooth and rich",
         price: 4.50,
         category: "coffee",
-        image: "images/drip-coffee.png"  // Your hand-drawn drip coffee setup!
+        image: "images/drip-coffee.png"
     },
     {
         id: 2,
@@ -45,9 +46,7 @@ const menuItems = [
         description: "Refreshing espresso with tonic water and ice",
         price: 5.50,
         category: "coffee",
-        hasCustomization: true,
-        syrupOnly: true,
-        image: "images/espresso-machine.png"  // Using espresso machine for this
+        image: "images/espresso-tonic.png"
     },
     {
         id: 3,
@@ -107,7 +106,6 @@ function openOrderModal(item) {
     
     // Set modal content
     modalItemName.textContent = item.name;
-    modalItemPrice.textContent = `$${item.price.toFixed(2)}`;
     modalItemDescription.textContent = item.description;
     
     // Show item image in modal
@@ -117,13 +115,8 @@ function openOrderModal(item) {
     // Show/hide customization options based on item
     if (item.hasCustomization) {
         customizationSection.style.display = 'block';
-        if (item.syrupOnly) {
-            foamOptions.style.display = 'none';
-            syrupOptions.style.display = 'block';
-        } else {
-            foamOptions.style.display = 'block';
-            syrupOptions.style.display = 'block';
-        }
+        foamOptions.style.display = 'block';
+        syrupOptions.style.display = 'block';
     } else {
         customizationSection.style.display = 'none';
         foamOptions.style.display = 'none';
@@ -167,7 +160,7 @@ function placeOrder() {
         customizations.push(syrupSelect.value);
     }
     
-    // Build order summary
+    // Build order summary (no price)
     let summary = `${currentItem.name}`;
     if (customizations.length > 0) {
         summary += `<br><small>+ ${customizations.join(', ')}</small>`;
@@ -200,7 +193,7 @@ function placeOrder() {
         setTimeout(() => {
             hideSuccessMessage();
             
-            // Re-enable order button
+            // Re-enable order button (no emoji, matching your updated HTML)
             orderBtn.disabled = false;
             orderBtn.innerHTML = '<span class="btn-text">Order Now</span>';
         }, 3000);
